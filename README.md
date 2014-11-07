@@ -8,8 +8,11 @@ Prerequisists
 
 Debian packages: libasio-dev, libboost-thread-dev
 
-Build
-=====
+Build and run demo client and server
+====================================
 
     $ cd demo
     $ make TINYRCPP_DIR=/path/to/tinycpp/root/dir
+   
+    $ ./server1 &
+    $ ./client1 127.0.0.1 1313
