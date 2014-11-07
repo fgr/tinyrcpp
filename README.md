@@ -7,3 +7,9 @@ Prerequisists
 =============
 
 Debian packages: libasio-dev, libboost-thread-dev
+
+Build
+=====
+
+$ cd demo
+$ make TINYRCPP_DIR=/path/to/tinycpp/root/dir
