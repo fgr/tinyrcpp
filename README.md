@@ -1,4 +1,4 @@
 tinyrcpp
 ========
 
-A tiny RCP library for C++ based on Boost ASIO.
+A tiny RCP library for C++ based on Boost.Asio.
