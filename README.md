@@ -6,7 +6,7 @@ A tiny RCP library for C++ based on Boost.Asio.
 Prerequisists
 =============
 
-Debian packages: libasio-dev, libboost-thread-dev
+Debian packages: libasio-dev, libboost-thread-dev, libboost-serialization-dev
 
 Build and run demo client and server
 ====================================
