@@ -3,6 +3,7 @@
 #include "boost/archive/binary_iarchive.hpp"
 
 #include <iostream>
+#include <stdexcept>
 
 #include "demo1_iface.hpp"
 #include "demo1_rcp_common.hpp"
@@ -28,31 +29,35 @@ public:
     acceptor.accept(*s.rdbuf());
     std::cout << "S: accepted..." << std::endl;
     boost::archive::binary_iarchive iarchive{ s };
-    std::cout << "S: 1" << std::endl;
 
     service_ids service_id;
     iarchive >> service_id;
-    std::cout << "S: service_id=" << as_integer(service_id) << std::endl;
+    std::cout << "S: service_id=" << as_int(service_id) << std::endl;
 
+    boost::archive::binary_oarchive oarchive{ s };
     switch(service_id) {
     case service_ids::length:
-      double x, y;
-      iarchive >> x >> y;
-      point2d p1{ x, y };
-      iarchive >> x >> y;
-      point2d p2{ x, y };
-      vector2d v{ p1, p2 };
-      auto result = service_->length(v);
-      boost::archive::binary_oarchive oarchive{ s };
-      oarchive << result;
+      length_request_indicated(iarchive, oarchive);
       s.close();
       break;
+    default:
+      throw std::runtime_error("Unknown service requested: " + as_int(service_id));
     }
-
   }
 
 private:
   demo1_iface *service_;
+
+  void length_request_indicated(boost::archive::binary_iarchive& in, boost::archive::binary_oarchive& out) {
+    double x, y;
+    in >> x >> y;
+    point2d p1{ x, y };
+    in >> x >> y;
+    point2d p2{ x, y };
+    vector2d v{ p1, p2 };
+    auto result = service_->length(v);
+    out << result;
+  }
 };
 
 int main() {

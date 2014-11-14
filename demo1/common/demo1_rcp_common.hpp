@@ -6,10 +6,9 @@ enum class service_ids : std::int8_t {
 };
 
 template <typename Enumeration>
-auto as_integer(Enumeration const value)
-    -> typename std::underlying_type<Enumeration>::type
+int as_int(Enumeration const value)
 {
-    return static_cast<typename std::underlying_type<Enumeration>::type>(value);
+    return static_cast<int>(value);
 }
 
 #endif // DEMO1_RCP_COMMON_H_
