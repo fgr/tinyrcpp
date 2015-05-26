@@ -16,24 +16,27 @@ public:
     tcp::iostream s("localhost", "1313");
     boost::archive::binary_oarchive oarchive{ s };
 
+    // 1. Send request to server:
     {
-      const auto &service_id = service_ids::length;
+      // 1.1 Send type of requested service (length service):
+      const int service_id{ service_ids::get_vector_length };
       oarchive << service_id;
-      s.flush();
     }
     {
-      const auto &x = v.p1().x();
-      const auto &y = v.p1().y();
+      // 1.2 Send first argument (data) required by length service:
+      const auto &x = v.p1().x;
+      const auto &y = v.p1().y;
       oarchive << x << y;
-      s.flush();
     }
     {
-      const auto &x = v.p2().x();
-      const auto &y = v.p2().y();
+      // 1.3 Send second argument (data) required by length service:
+      const auto &x = v.p2().x;
+      const auto &y = v.p2().y;
       oarchive << x << y;
-      s.flush();
     }
+    s.flush();
 
+    // 2. Read (length service) response from server:
     boost::archive::binary_iarchive iarchive{ s };
     double result;
     iarchive >> result;
@@ -44,6 +47,7 @@ public:
 int main() {
   demo1_client_facade service;
   vector2d v{ point2d{ 1, 1 }, point2d{ 3, 3 } };
-  return service.length(v);
+  const auto len = service.length(v);
+  return len;
 }
 

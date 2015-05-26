@@ -3,13 +3,10 @@
 
 class point2d {
 public:
-  point2d(double x, double y) : x_{ x }, y_{ y } {}
+  point2d(double xx, double yy) : x{ xx }, y{ yy } {}
 
-  double const &x() const { return x_; }
-  double const &y() const { return y_; }
-
-private:
-  const double x_, y_;
+  const double x;
+  const double y;
 };
 
 class vector2d {
